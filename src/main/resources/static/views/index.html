@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Main Page</title>
+</head>
+<script src="js/lib/angular.min.js"></script>
+<script src="js/lib/ui-bootstrap-tpls-2.5.0.min.js"></script>
+<script src="js/app/app.js"></script>
+<script src="js/app/ExcelController.js"></script>
+<script src="js/app/ExcelService.js"></script>
+<link rel="stylesheet" href="css/lib/bootstrap.min.css" />
+<link rel="stylesheet" href="css/app/app.css" />
+<body ng-app="demo">
+	<hr />
+	<div class="container" ng-controller="ExcelController">
+
+		<div class="row">
+
+			<div class="col" style="color: white; padding-left: 30%;">
+
+				<div class="image-container">
+					<img ng-src={{image}} /> <span class="file-name">{{imageFileName}}</span>
+				</div>
+
+				<form action>
+
+					<div class="dropzone" file-dropzone="[application/vnd.openxmlformats-officedocument.spreadsheetml.sheet]"
+						file="image" file-name="imageFileName" data-max-file-size="3"
+						file-one-cols="file1ColNames" file-two-cols="file2ColNames"
+						file-one="file1" file-two="file2">
+						<span style="color: black">Drag and Drop xlsx Files Here to
+							upload</span> 
+							<input  style="padding-left: 15%; padding-top: 9%"
+							type="file" fileread="uploadme.src" disabled> 
+							<img ng-src="{{ uploadme.src }}">
+
+					</div>
+
+				</form>
+			</div>
+		</div>
+
+		<Br> <Br>
+		<div class="row">
+
+			<label>File 1: </label> <Br> <label>Available Fields :==>    </label>
+			 
+			 <label style="font-size: 15px;font-weight:300;" ng-if="file1ColNames.length == 0">File 1 is not Uploaded </label>
+			 
+			 <label style="font-size: 15px;font-weight: 300;" ng-if="file1ColNames.length > 0" ng-repeat="colName in file1ColNames">{{colName}} , </label>
+
+		</div>
+		<Br> <Br>
+		<div class="row">
+
+			<label>File 2: </label> <Br> <label>Available Fields :==>     </label>
+        	 <label style="font-size: 15px;font-weight: 300;" ng-if="file2ColNames.length == 0">File 2 is not Uploaded </label>
+
+			<label style="font-size: 15px;font-weight: 300;" ng-if="file2ColNames.length > 0" ng-repeat="colName in file2ColNames">{{colName}} , </label>
+
+		</div>
+		<Br>
+		<div class="row">
+			<label>Set Order : </label> <input type="text"
+				style="height: 65px; width: 500px; font-size: 15px;"
+				ng-model="columnOrder" class="input-sm spacing" />
+		</div>
+		<br>
+		<div class="row">
+			
+			<label>Note => <span style="font-weight: 300;"> Please drag and drop file in the file Area.
+			 After that available number of columns will be shown in the File 1 Available Fields area and File 2 Available Fields area
+			 choose the column and write in the Set order area.
+			 Example => Col1,Col2,Col4,Col5</span></label> 
+			
+		</div>
+		<Br> <Br>
+		<div class="row">
+			<label>Set File Type : </label> <select name="users"
+				ng-model="typeName">
+				<option selected value="">--Select File Type--</option>
+				<option ng-repeat="t in fileTypes" value="{{t}}">{{t.type}}</option>
+			</select> 
+		</div>
+		<Br>
+		<div class="row" ng-if="isDelimiterShow(typeName)">
+			<label>Delimeter : </label> <select name="del" ng-model="delimiter"
+				ng-change="delimiterChange(delimiter)">
+				<option selected value="">--Select Delimeter--</option>
+				<option ng-repeat="d in delimiters" value="{{d}}">{{d}}</option>
+			</select> 
+
+		</div>
+		<Br> <Br>
+		<div class="row">
+
+			<button ng-click="downloadOutputFile(typeName)"
+				class="btn btn-sm btn-info">Download Output File</button>
+
+		</div>
+		<Br> <Br> <Br>
+
+	</div>
+</body>
+
+</html>
